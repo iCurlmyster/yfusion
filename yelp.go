@@ -38,7 +38,7 @@ func (yf *YelpFusion) getRequest(method, url string) (*http.Request, error) {
 }
 
 // SearchBusiness - Use the Business Search route with the given BussinesSearchParams options
-// returns the parsed Businesses object
+// returns the parsed BusinessSearchData object
 func (yf *YelpFusion) SearchBusiness(bus *BusinessSearchParams) (*BusinessSearchData, error) {
 	resp, err := yf.SearchBusinessResponse(bus)
 	if err != nil {
