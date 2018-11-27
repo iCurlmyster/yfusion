@@ -14,6 +14,12 @@ However I do plan to flesh out the rest of the API.
 
 - Go v1.10+
 
+## Install
+
+```bash
+$ go get github.com/iCurlmyster/yfusion
+```
+
 ## Sample Code
 
 ```golang
