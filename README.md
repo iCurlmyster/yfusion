@@ -17,7 +17,7 @@ However I do plan to flesh out the rest of the API.
 ## Install
 
 ```bash
-$ go get github.com/iCurlmyster/yfusion
+go get github.com/iCurlmyster/yfusion
 ```
 
 ## Sample Code
