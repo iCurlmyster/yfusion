@@ -23,7 +23,18 @@ type YelpFusion struct {
 // NewYelpFusion - Generate a new YelpFusion object with a given API key
 func NewYelpFusion(key string) *YelpFusion {
 	return &YelpFusion{
-		client: &http.Client{},
+		client: http.DefaultClient,
+		apiKey: key,
+	}
+}
+
+// NewYelpFusionWithClient - Generate a new YelpFusion object with a given API key and http client object
+func NewYelpFusionWithClient(key string, client *http.Client) *YelpFusion {
+	if client == nil {
+		client = http.DefaultClient
+	}
+	return &YelpFusion{
+		client: client,
 		apiKey: key,
 	}
 }
