@@ -6,8 +6,9 @@ Golang client for Yelp Fusion API. https://www.yelp.com/fusion
 Supported requests:
 - Business Search
 - Business Details
+- Business Search by Phone
 
-Currently this only supports 2 requests from the API, because these are the ones I needed.
+Currently this has limited support of the API, because these are the requests that I needed.
 However I do plan to flesh out the rest of the API.
 
 ## Requirements
