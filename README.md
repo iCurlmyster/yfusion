@@ -9,6 +9,8 @@ trying to flesh out the rest of the API.
 This library is just a wrapper to make interacting with the Yelp Fusion API easier and to provide returned structs with defined
 fields instead of having just a map object.
 
+[Current Docs](https://github.com/iCurlmyster/yfusion/wiki/Docs)
+
 Supported requests:
 - Business Search
 - Business Details
