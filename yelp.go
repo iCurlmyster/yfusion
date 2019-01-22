@@ -96,12 +96,19 @@ func (yf *YelpFusion) SearchBusinessResponse(ctx context.Context, bus *BusinessS
 }
 
 // SearchBusinessDetails - Query details about a business, given its ID
+// The error field on the DetailedBusinessInfo object will only be populated if an HTTP 301 status code is returned
+// In which case you can resend the request with the NewBusinessID from the error field on the DetailedBusinessInfo object.
+// Otherwise error should be nil.
+//
 // returns the parsed DetailedBusinessInfo object
 func (yf *YelpFusion) SearchBusinessDetails(busID string) (*DetailedBusinessInfo, error) {
 	return yf.SearchBusinessDetailsWithLocale(nil, busID, "")
 }
 
 // SearchBusinessDetailsWithLocale - Query details about a business, given its ID with context.
+// The error field on the DetailedBusinessInfo object will only be populated if an HTTP 301 status code is returned
+// In which case you can resend the request with the NewBusinessID from the error field on the DetailedBusinessInfo object.
+// Otherwise error should be nil.
 //
 // With the option of specifing a locale. (An empty string for locale will leave the parameter off)
 // returns the parsed DetailedBusinessInfo object
@@ -110,7 +117,7 @@ func (yf *YelpFusion) SearchBusinessDetailsWithLocale(ctx context.Context, busID
 	if err != nil {
 		return nil, err
 	}
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusMovedPermanently {
 		return nil, errors.New(resp.Status)
 	}
 	defer resp.Body.Close()
@@ -213,9 +220,6 @@ func (yf *YelpFusion) SearchBusinessReviewsWithLocale(ctx context.Context, busID
 }
 
 // SearchBusinessReviewsWithLocaleResponse - Query for reviews for a particular business
-// The error field on the ReviewsData object will only be populated if an HTTP 301 status code is returned
-// In which case you can resend the request with the NewBusinessID from the error field on the ReviewsData object.
-// Otherwise error should be nil.
 //
 // The locale defaults to en_US if left blank.
 // Returns the response from the request

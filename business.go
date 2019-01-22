@@ -32,6 +32,13 @@ type Loc struct {
 	CrossStreets   string `json:"cross_streets"`
 }
 
+// BusinessMigratedError - Represents the error returned from an HTTP 301 response on certain requests
+type BusinessMigratedError struct {
+	Code          string
+	Description   string
+	NewBusinessID string `json:"new_business_id"`
+}
+
 // GeneralBusinessInfo - Data about a Business
 type GeneralBusinessInfo struct {
 	Categories  []CategoriesInfo
@@ -52,7 +59,6 @@ type GeneralBusinessInfo struct {
 	ReviewCount  int `json:"review_count"`
 	URL          string
 	Transactions []string
-	ErrResponse  map[string]interface{} `json:"error"`
 }
 
 // DetailedBusinessInfo - Data returned from a Business Details request
@@ -65,6 +71,7 @@ type DetailedBusinessInfo struct {
 	IsClaimed    bool `json:"is_claimed"`
 	// Attributes is only visible for Yelp Fusion VIP clients
 	Attributes map[string]interface{}
+	Error      *BusinessMigratedError
 }
 
 // HoursInfo - Data about hours for the business
