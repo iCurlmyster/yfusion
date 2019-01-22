@@ -3,14 +3,22 @@ Golang client for Yelp Fusion API. https://www.yelp.com/fusion
 
 ## Current Status
 
+Currently this library has limited support for the API. It started out as just a need for a couple of the requests but now I am
+trying to flesh out the rest of the API. 
+
+This library is just a wrapper to make interacting with the Yelp Fusion API easier and to provide returned structs with defined
+fields instead of having just a map object.
+
 Supported requests:
 - Business Search
 - Business Details
 - Business Search by Phone number
 - Business Reviews
 
-Currently this has limited support of the API, because these are the requests that I needed.
-However I do plan to flesh out the rest of the API.
+Requests TODO:
+- Business Match
+- Transaction Search
+- Autocomplete
 
 ## Requirements
 
