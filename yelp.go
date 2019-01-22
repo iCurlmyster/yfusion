@@ -3,6 +3,7 @@ package yfusion
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -10,9 +11,10 @@ import (
 )
 
 const (
-	baseURL    = "https://api.yelp.com/v3"
-	busDetails = "/businesses"
-	busSearch  = busDetails + "/search"
+	baseURL     = "https://api.yelp.com/v3"
+	busDetails  = "/businesses"
+	busSearch   = busDetails + "/search"
+	phoneSearch = busSearch + "/phone"
 )
 
 // YelpFusion - Object to interact with Yelp's Fusion v3 API
@@ -113,6 +115,7 @@ func (yf *YelpFusion) SearchBusinessDetailsWithLocale(ctx context.Context, busID
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 	var b *DetailedBusinessInfo
 	decode := json.NewDecoder(resp.Body)
 	if err := decode.Decode(&b); err != nil {
@@ -129,6 +132,43 @@ func (yf *YelpFusion) SearchBusinessDetailsWithLocaleResponse(ctx context.Contex
 	if strings.TrimSpace(locale) != "" {
 		urlStr = fmt.Sprintf("%s?locale=%s", urlStr, url.QueryEscape(locale))
 	}
+	req, err := yf.getRequest(ctx, "GET", urlStr)
+	if err != nil {
+		return nil, err
+	}
+	return yf.client.Do(req)
+}
+
+// SearchBusinessesByPhone - Query Businesses by a phone number.
+// The phone number must start with a "+" and the country code.
+func (yf *YelpFusion) SearchBusinessesByPhone(ctx context.Context, phoneNumber string) (*BusinessSearchData, error) {
+	return yf.SearchBusinessesByPhoneWithContext(nil, phoneNumber)
+}
+
+// SearchBusinessesByPhoneWithContext - Query Businesses by a phone number.
+// The phone number must start with a "+" and the country code.
+func (yf *YelpFusion) SearchBusinessesByPhoneWithContext(ctx context.Context, phoneNumber string) (*BusinessSearchData, error) {
+	resp, err := yf.SearchBusinessesByPhoneResponse(ctx, phoneNumber)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	var b *BusinessSearchData
+	decode := json.NewDecoder(resp.Body)
+	if err := decode.Decode(&b); err != nil {
+		return nil, err
+	}
+	return b, nil
+}
+
+// SearchBusinessesByPhoneResponse - Query Businesses by a phone number.
+// The phone number must start with a "+" and the country code.
+// Returns the response from the request
+func (yf *YelpFusion) SearchBusinessesByPhoneResponse(ctx context.Context, phoneNumber string) (*http.Response, error) {
+	if strings.TrimSpace(phoneNumber) == "" {
+		return nil, errors.New("phone number is required")
+	}
+	urlStr := fmt.Sprintf("%s%s?phone=%s", baseURL, phoneSearch, url.QueryEscape(phoneNumber))
 	req, err := yf.getRequest(ctx, "GET", urlStr)
 	if err != nil {
 		return nil, err

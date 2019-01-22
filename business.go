@@ -41,7 +41,7 @@ type GeneralBusinessInfo struct {
 	Distance     float64
 	ID           string
 	Alias        string
-	ImageURL     string
+	ImageURL     string `json:"image_url"`
 	// IsClosed - Whether a business has been permanently closed
 	IsClosed bool `json:"is_closed"`
 	Location *Loc
