@@ -29,7 +29,7 @@ Requests TODO:
 ## Install
 
 ```bash
-go get github.com/iCurlmyster/yfusion
+go get github.com/jmatth11/yfusion
 ```
 
 ## Sample Code
