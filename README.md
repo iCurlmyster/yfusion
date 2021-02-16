@@ -40,7 +40,7 @@ package main
 import (
   "fmt"
 
-  "github.com/iCurlmyster/yfusion"
+  "github.com/jmatth11/yfusion"
 )
 
 const (
